@@ -1,0 +1,20 @@
+PATHOLOGY LAB - TEST CATALOG & REPORT CHANGES
+
+1. The test catalog/prices were updated from the supplied handwritten list.
+2. Test parameters/reference ranges were added from the supplied pathology report PDF where readable.
+3. Result fields are now optional per parameter.
+4. At least one result is required to save a test.
+5. Blank result fields are NOT stored in test_results.
+6. The final patient report uses only entered results; blank parameters are omitted completely.
+7. The report layout was adjusted to resemble the supplied reference reports:
+   - clinic/report header
+   - patient information
+   - section headings such as HEMATOLOGY, BIOCHEMISTRY, SEROLOGY & IMMUNOLOGY
+   - TEST DESCRIPTION / RESULT / UNIT / REFERENCE RANGE table
+8. database.sql contains the full catalog for a fresh database.
+9. update_test_catalog.sql is provided for an existing database. Back up the database before running it.
+10. Where the handwritten list says "each" for a combined item (for example BT/CT), the combined catalog price is stored as the sum of the parts.
+
+11. Legacy duplicate test named "Thyroid" is removed; "Thyroid Profile" remains.
+12. "Viral Marker" price is ₹500.
+13. Final report cancellation is now handled from the top of the final report using a Cancel Report button. The reason opens in a small cancellation dialog, and after successful cancellation the user is redirected to Cancel Report instead of staying on the patient report page.

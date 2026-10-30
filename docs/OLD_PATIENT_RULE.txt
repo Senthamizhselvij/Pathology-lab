@@ -1,0 +1,16 @@
+OLD PATIENT RULE (FINAL)
+
+For Daily Report, Weekly Report, and Summary Report:
+
+- The first patient record ever saved with a Receipt ID is NEW.
+- Every later patient record with the same Receipt ID is OLD.
+- The check uses the complete patients table, not the selected report date/range.
+- The selected date/range only controls which records are displayed.
+- Receipt ID comparison ignores leading/trailing spaces, letter case, and spaces inside the stored Receipt ID.
+- Patient name, phone, address, Patient ID, and tests do not affect NEW/OLD classification.
+- A cancelled earlier record can still establish Receipt ID history; cancelled records themselves are excluded from displayed report rows.
+- Duplicate Receipt IDs are allowed. Patient ID remains unique.
+
+Implementation:
+  A patient is OLD when another patient exists with the same normalized Receipt ID and a lower patients.id.
+  Otherwise it is NEW.

@@ -1,0 +1,39 @@
+PATIENT WORKFLOW
+================
+
+New Patient
+-----------
+- Receipt ID: manually entered, letters/numbers only.
+- Patient ID: manually entered, 1-12 letters/numbers, unique.
+- Date is automatic.
+- No Month field.
+- Patient list order: Receipt ID, Date, Patient Name, Patient ID, Age, Gender, Phone, Address.
+
+Tests
+-----
+1. Save patient.
+2. Add any required laboratory tests without entering results.
+3. Added tests remain saved even when the result is not yet available.
+4. Action is "Saved". Clicking it opens the editable result form.
+5. Enter results later and save.
+6. The same result can be edited again at any time.
+
+Patient Report
+--------------
+- No amount/price is displayed.
+- Tests without results appear only by test name.
+- Tests with results show their full descriptions, result, unit and reference range.
+- The report updates automatically after a result is saved.
+
+NEW: REPORT DATE
+- Registration Date is the original patient registration date.
+- When a result is entered, the user/admin must select the actual Report Date using the calendar.
+- Report Date cannot be in the future.
+- The patient report shows both Registration Date and Report Date.
+- Editing a result later allows the user/admin to change the Report Date if needed.
+
+NEW: REPORT CANCELLATION
+- Final reports can be cancelled only after final submission.
+- Cancellation requires a reason; the reason cannot be blank.
+- The system records the logged-in username and role as the person who cancelled the report.
+- Cancel Report lists the cancellation date, cancelled by user/role, and reason.

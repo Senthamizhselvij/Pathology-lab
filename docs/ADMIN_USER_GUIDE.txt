@@ -1,0 +1,18 @@
+ADMIN USER + ACTIVITY LOG
+==========================
+
+1. Import/run admin_security_update.sql once in phpMyAdmin with pathology_lab selected.
+2. Log in as admin or 5001. Existing accounts are set to ADMIN.
+3. Open "User Management" in the top bar.
+4. Create accounts as needed. Choose STAFF, HOD, or ADMIN.
+5. Use Generate to create a 12-character password. Save/copy it before closing the page.
+6. Admin and HOD can edit usernames, roles and passwords, and can create/delete users.
+7. Admin/HOD cannot delete the currently logged-in account or remove their own administrative access.
+8. Open Activity Log to see who logged in, created/edited/deleted users, registered patients, added tests, saved results, cancelled tests/reports, and submitted reports.
+9. The application does not provide a delete button for audit logs.
+10. If somebody deletes/edits the actual PHP files in the Windows/XAMPP project folder, the PHP application cannot reliably identify that person. Use Windows permissions and backups/version control for source-code protection.
+
+IMPORTANT: The old login fallback that accepted admin/5001 with a hard-coded password was removed. Users must exist in admins and use their stored password hash.
+
+
+HOD permissions: HOD accounts have the same User Management and Activity Log access as Admin. HOD can create, edit, and delete user accounts and assign Staff, HOD, or Admin roles. The Activity Log page does not display IP addresses.
