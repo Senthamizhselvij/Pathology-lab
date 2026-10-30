@@ -18,6 +18,6 @@ export const config = {
   jwtExpiresIn: '12h',
   cookieMaxAgeMs: 12 * 60 * 60 * 1000,
   schemaFile: path.join(__dirname, '..', '..', 'database', 'schema.sql'),
-  clientDist: path.join(__dirname, '..', '..', 'client', 'dist'),
+  clientDist: path.join(__dirname, '..', '..', 'frontend', 'dist'),
   isProduction: process.env.NODE_ENV === 'production',
 };
