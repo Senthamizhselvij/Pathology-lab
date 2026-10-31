@@ -3,8 +3,9 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import fs from 'fs';
 import path from 'path';
+
 import { config } from './config.js';
-import { initDatabase } from './db.js';
+import { initDatabase, q } from './db.js';
 
 import { requireAuth, requireAdminRole } from './middleware/auth.js';
 import authRoutes from './routes/auth.js';
@@ -21,9 +22,22 @@ app.disable('x-powered-by');
 app.use(express.json({ limit: '1mb' }));
 app.use(cookieParser());
 
-// Health check
-app.get('/api/health', (_req, res) => {
-  res.json({ ok: true });
+// Health check: verify the server and database are responding.
+app.get('/api/health', async (_req, res) => {
+  try {
+    await q('SELECT 1');
+    res.status(200).json({
+      ok: true,
+      database: 'connected',
+    });
+  } catch (err) {
+    console.error('[!] Health check database error:', err.message);
+
+    res.status(503).json({
+      ok: false,
+      database: 'disconnected',
+    });
+  }
 });
 
 // Public authentication routes
@@ -38,7 +52,9 @@ app.use('/api/admin', requireAuth, requireAdminRole, adminRoutes);
 
 // API 404 handler
 app.use('/api', (_req, res) => {
-  res.status(404).json({ error: 'API endpoint not found.' });
+  res.status(404).json({
+    error: 'API endpoint not found.',
+  });
 });
 
 // Serve the built React frontend
@@ -54,14 +70,17 @@ if (fs.existsSync(indexPath)) {
   });
 } else {
   console.warn(
-    `[!] React build not found at ${indexPath}. Run npm run build in the client folder.`
+    `[!] React build not found at ${indexPath}. ` +
+    'Run npm run build in the frontend folder.'
   );
 }
 
 // Central error handler
 app.use((err, _req, res, _next) => {
   if (err.type === 'entity.parse.failed') {
-    return res.status(400).json({ error: 'Invalid request body.' });
+    return res.status(400).json({
+      error: 'Invalid request body.',
+    });
   }
 
   const status = err.status || 500;
@@ -82,34 +101,43 @@ app.use((err, _req, res, _next) => {
 async function start() {
   try {
     await initDatabase();
+
+    if (
+      !config.isProduction &&
+      config.jwtSecret === 'dev-only-secret-change-me'
+    ) {
+      console.warn(
+        '[!] Using the default JWT_SECRET. Set a secure value in backend/.env.'
+      );
+    }
+
+    const server = app.listen(config.port, '0.0.0.0', () => {
+      console.log(
+        `\nPathology Lab is running on port ${config.port}`
+      );
+      console.log(
+        `Health check: http://localhost:${config.port}/api/health`
+      );
+    });
+
+    server.on('error', (err) => {
+      console.error('[!] Server startup error:', err.message);
+      process.exit(1);
+    });
   } catch (err) {
-    console.error('\n[!] Could not connect to MySQL:', err.message);
+    console.error('\n[!] Application startup failed:', err.message);
+
     console.error(
-      `    Host: ${config.db.host}:${config.db.port}, ` +
-      `user: "${config.db.user}", database: "${config.db.name}".`
+      `    Database: ${config.db.name} at ` +
+      `${config.db.host}:${config.db.port}`
     );
-    console.error('    Check that MySQL is running in XAMPP.');
-    console.error('    Verify the database settings in backend/.env.');
-    console.error('    XAMPP may use port 3307 instead of 3306.\n');
+
+    console.error(
+      '    Check the database service and environment variables.'
+    );
 
     process.exit(1);
   }
-
-  if (
-    !config.isProduction &&
-    config.jwtSecret === 'dev-only-secret-change-me'
-  ) {
-    console.warn(
-      '[!] Using the default JWT_SECRET. Set a secure value in backend/.env.'
-    );
-  }
-
-  app.listen(config.port, () => {
-    console.log(
-      `\nPathology Lab is running: http://localhost:${config.port}`
-    );
-    console.log('Check database connection and login credentials in your setup.\n');
-  });
 }
 
 start();

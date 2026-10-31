@@ -1,0 +1,12 @@
+CANCEL REPORT
+
+1. Open the patient's final report.
+2. Click Cancel Report.
+3. Enter the mandatory reason for cancellation.
+4. Confirm the cancellation.
+5. The system records:
+   - Username
+   - Role (admin/hod/staff)
+   - Cancellation date/time
+   - Reason
+6. The Cancel Report page shows these details for later review.

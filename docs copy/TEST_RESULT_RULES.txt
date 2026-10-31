@@ -1,0 +1,17 @@
+TEST RESULT WORKFLOW
+====================
+
+1. Adding a test does NOT require entering a result.
+2. After a test is added, the patient test list shows the action as "Saved".
+3. Clicking "Saved" opens the result form.
+4. Results can be entered immediately or after 1-2 days (or any later date).
+5. Saved results remain editable. Saving the form replaces the previous result values.
+6. Blank parameter results are not stored and are not printed.
+7. A test with no result remains visible in the patient report as the test name only, for example CBC or BT / CT.
+8. Once a result is entered, that test automatically appears in the detailed report with its test description, result, unit and reference range.
+9. Patient reports do not display test prices or total amounts.
+10. The Patient Tests page does not show a Cancel button for added tests.
+11. Test prices remain available internally for billing/report modules.
+12. BT / CT = ₹50 flat total; HIV/HCV/HBsAg/VDRL = ₹150 each; Blood Sugar Fasting/PP = ₹50 each; Lipid Profile = ₹350; Total Protein = ₹150.
+
+13. HIV test contains only HIV 1 and HIV 2 parameters; the generic HIV parameter is removed.

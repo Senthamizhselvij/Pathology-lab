@@ -21,8 +21,10 @@
 --
 -- ========================================================================
 
-CREATE DATABASE IF NOT EXISTS `pathology_lab` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE `pathology_lab`;
+CREATE DATABASE IF NOT EXISTS `pathology_lab_restore`
+CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+USE `pathology_lab_restore`;
 
 -- ------------------------------------------------------------------------
 -- 1. Table structure for table `admins`
